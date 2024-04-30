@@ -1,0 +1,40 @@
+{
+    "name":        "topdata/queue-helper",
+    "version":     "1.0.0",
+    "description": "Console Commands for handling SW6 queues",
+    "type":        "shopware-platform-plugin",
+    "license":     "proprietary",
+    "authors":     [
+        {
+            "name":     "TopData Software GmbH",
+            "homepage": "https://www.topdata.de",
+            "role":     "Manufacturer"
+        }
+    ],
+    "autoload":    {
+        "psr-4": {
+            "Topdata\\TopdataQueueHelperSW6\\": "src/"
+        }
+    },
+    "extra":       {
+        "shopware-plugin-class": "Topdata\\TopdataQueueHelperSW6\\TopdataQueueHelperSW6",
+        "plugin-icon":           "src/Resources/config/icon-topdata-queue-helper-256x256.png",
+        "copyright":             "(c) by TopData Software GmbH",
+        "label":                 {
+            "de-DE": "Queue Helper",
+            "en-GB": "Queue Helper"
+        },
+        "description":           {
+            "de-DE": "console commands for debugging sw6 queues",
+            "en-GB": "console commands for debugging sw6 queues"
+        },
+        "manufacturerLink":      {
+            "de-DE": "https://www.topdata.de",
+            "en-GB": "https://www.topdata.de"
+        },
+        "supportLink":           {
+            "de-DE": "https://www.topdata.de",
+            "en-GB": "https://www.topdata.de"
+        }
+    }
+}

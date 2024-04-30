@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- CONSOLE COMMANDS -->
+        <service id="Topdata\TopdataQueueHelperSW6\Command\ResetQueueCommand" autowire="true">
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Topdata\TopdataQueueHelperSW6\Command\DebugQueueCommand" autowire="true">
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Topdata\TopdataQueueHelperSW6\Command\ScheduledTaskListCommand" autowire="true">
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Topdata\TopdataQueueHelperSW6\Command\EnqueueListCommand" autowire="true">
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Topdata\TopdataQueueHelperSW6\Command\ExportListCommand" autowire="true">
+            <tag name="console.command"/>
+        </service>
+
+
+
+        <!-- SERVICES -->
+        <service id="Topdata\TopdataQueueHelperSW6\Service\ExportHelperService" autowire="true" />
+        <service id="Topdata\TopdataQueueHelperSW6\Service\QueueService" autowire="true" />
+
+
+    </services>
+</container>
