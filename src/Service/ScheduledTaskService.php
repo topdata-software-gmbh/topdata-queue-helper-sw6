@@ -4,6 +4,7 @@ namespace Topdata\TopdataQueueHelperSW6\Service;
 
 
 use Doctrine\DBAL\Connection;
+use Topdata\TopdataQueueHelperSW6\Util\UtilDate;
 
 /**
  * 06/2024 created
@@ -51,5 +52,43 @@ class ScheduledTaskService
         ");
     }
 
+
+    /**
+     * private helper
+     *
+     * 06/2024 created
+     */
+    private function _isZombie(mixed $row)
+    {
+        if($row['status'] != 'running') {
+            return false;
+        }
+        $lastExecutionUTC = UtilDate::dateTimeFromString($row['last_execution_time']);
+        $nextExecutionUTC = UtilDate::dateTimeFromString($row['next_execution_time']);
+
+        dump($row, $lastExecutionUTC, $nextExecutionUTC);
+
+        return true;
+    }
+
+
+
+    /**
+     * 06/2024 created
+     */
+    public function findZombies(): array
+    {
+        $rows = $this->databaseHelperService->fetchRows('scheduled_task', ['created_at', 'updated_at'], ['scheduled_task_class' => 'ASC']);
+
+        $zombies = [];
+        foreach ($rows as $row) {
+
+            if ($this->_isZombie($row)) {
+                $zombies[] = $row;
+            }
+        }
+
+        return $zombies;
+    }
 
 }

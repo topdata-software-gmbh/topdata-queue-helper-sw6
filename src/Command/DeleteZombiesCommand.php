@@ -47,6 +47,7 @@ class DeleteZombiesCommand extends Command
         // ---- init ----
         $this->cliStyle = new CliStyle($input, $output);
 
+        $zombies = $this->scheduledTaskService->findZombies();
 
         $this->cliStyle->success("==== DONE ====");
 
