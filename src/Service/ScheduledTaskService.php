@@ -65,8 +65,9 @@ class ScheduledTaskService
         }
         $lastExecutionUTC = UtilDate::dateTimeFromString($row['last_execution_time']);
         $nextExecutionUTC = UtilDate::dateTimeFromString($row['next_execution_time']);
+        $runIntervalSeconds = (int)$row['run_interval'];
 
-        dump($row, $lastExecutionUTC, $nextExecutionUTC);
+        dump($row, $lastExecutionUTC, $nextExecutionUTC, $runIntervalSeconds);
 
         return true;
     }
