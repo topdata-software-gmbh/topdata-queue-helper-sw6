@@ -48,10 +48,55 @@ class DeleteZombiesCommand extends Command
         $this->cliStyle = new CliStyle($input, $output);
 
         $zombies = $this->scheduledTaskService->findZombies();
+        $this->_printZombiesTable($zombies);
 
         $this->cliStyle->success("==== DONE ====");
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * prints the zombies in scheduled_task as a table
+     *
+     * 06/2024 created
+     */
+
+    private function _printZombiesTable(array $rows): void
+    {
+        // Prepare table headers and rows
+        $headers = [
+            // 'ID',
+            'Name',
+            'Task Class',
+            'Run Interval',
+            'Status',
+            'Last Execution Time',
+            'Next Execution Time',
+//            'Created At',
+//            'Updated At',
+//            'Overdue Score',
+//            'Last Exec Score',
+//            'Outdated Score',
+            'Certainty Score'
+        ];
+        $tableRows = [];
+
+        foreach ($rows as $row) {
+            $tableRows[] = [
+                // $row['id'],
+                $row['name'],
+                $row['scheduled_task_class'],
+                $row['run_interval'],
+                $row['status'],
+                $row['last_execution_time'],
+                $row['next_execution_time'],
+//                $row['created_at'],
+//                $row['updated_at'],
+                $row['overdue_score'] . '+' . $row['last_exec_score'] . '+' . $row['outdated_score'] . ' = ' . $row['certainty_score']
+            ];
+        }
+
+        $this->cliStyle->table($headers, $tableRows, "Zombie Jobs", "Total: " . count($rows));
     }
 
 
