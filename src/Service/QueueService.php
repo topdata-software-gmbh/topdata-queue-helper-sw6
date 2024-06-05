@@ -11,22 +11,15 @@ use Doctrine\DBAL\Connection;
 class QueueService
 {
     private Connection $connection;
+    private DatabaseHelperService $databaseHelperService;
 
     public function __construct(
-        Connection $connection
+        Connection            $connection,
+        DatabaseHelperService $databaseHelperService,
     )
     {
         $this->connection = $connection;
-    }
-
-    /**
-     * 04/2024 created
-     */
-    public function getScheduledTasks(?string $search = null): array
-    {
-        $rows = $this->fetchRows('scheduled_task', ['id', 'created_at', 'updated_at'], ['scheduled_task_class' => 'ASC']);
-
-        return $this->_filterRows($rows, $search);
+        $this->databaseHelperService = $databaseHelperService;
     }
 
 
@@ -78,53 +71,6 @@ class QueueService
         return $this->_filterRows($this->fetchRows('enqueue', ['id', 'created_at', 'updated_at']), $search);
     }
 
-    /**
-     * 04/2024 created
-     */
-    private function getTableColumnNamesExcept(string $tableName, array $excludedColumns = []): array
-    {
-        $keys = array_keys($this->connection->getSchemaManager()->listTableColumns($tableName));
-
-        return array_diff($keys, $excludedColumns);
-    }
-
-    /**
-     * 04/2024 created
-     *
-     * @param string $tbl eg 'message_queue_stats'
-     * @param string[] $exclude eg ['id', 'created_at', 'updated_at']
-     * @param array $sort eg ['scheduled_task_class' => 'ASC', 'id' => 'ASC']
-     */
-    private function fetchRows(string $tbl, array $exclude, array $sort = ['id' => 'ASC']): array
-    {
-        $columnNames = $this->getTableColumnNamesExcept($tbl, $exclude);
-
-        $arrOrderBy = [];
-        foreach ($sort as $key => $value) {
-            $arrOrderBy[] = "$key $value";
-        }
-        $sql = "SELECT " . implode(", ", $columnNames) . " FROM $tbl ORDER BY " . implode(", ", $arrOrderBy);
-
-        return $this->connection->executeQuery($sql)->fetchAllAssociative();
-
-    }
-
-    /**
-     * private helper
-     *
-     * 04/2024 created
-     */
-    private function _filterRows(array $rows, ?string $search): array
-    {
-        $ret = [];
-        foreach ($rows as $row) {
-            if ($search === null || stripos(json_encode($row), $search) !== false) {
-                $ret[] = $row;
-            }
-        }
-
-        return $ret;
-    }
 
     public function countEnqueue(): int
     {
@@ -146,7 +92,7 @@ class QueueService
      */
     public function updateScheduledTasksStatusFromQueueToScheduled(): int
     {
-        return (int) $this->connection->executeStatement("
+        return (int)$this->connection->executeStatement("
             UPDATE scheduled_task
             SET status = 'scheduled'
             WHERE status = 'queued'

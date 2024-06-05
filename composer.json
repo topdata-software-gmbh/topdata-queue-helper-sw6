@@ -1,6 +1,6 @@
 {
     "name":        "topdata/queue-helper",
-    "version":     "1.0.0",
+    "version":     "1.1.0",
     "description": "Console Commands for handling SW6 queues",
     "type":        "shopware-platform-plugin",
     "license":     "proprietary",
@@ -17,22 +17,24 @@
         }
     },
     "extra":       {
-        "shopware-plugin-class": "Topdata\\TopdataQueueHelperSW6\\TopdataQueueHelperSW6",
-        "plugin-icon":           "src/Resources/config/icon-topdata-queue-helper-256x256.png",
-        "copyright":             "(c) by TopData Software GmbH",
-        "label":                 {
-            "de-DE": "Queue Helper",
-            "en-GB": "Queue Helper"
+        "topdata-technical-documentation": "https://github.com/topdata-software-gmbh/topdata-queue-helper-sw6/blob/main/README.md",
+        "topdata-user-documentation":      null,
+        "shopware-plugin-class":           "Topdata\\TopdataQueueHelperSW6\\TopdataQueueHelperSW6",
+        "plugin-icon":                     "src/Resources/config/icon-topdata-queue-helper-256x256.png",
+        "copyright":                       "(c) by TopData Software GmbH",
+        "label":                           {
+            "de-DE": "Topdata Queue Helper",
+            "en-GB": "Topdata Queue Helper"
         },
-        "description":           {
+        "description":                     {
             "de-DE": "console commands for debugging sw6 queues",
             "en-GB": "console commands for debugging sw6 queues"
         },
-        "manufacturerLink":      {
+        "manufacturerLink":                {
             "de-DE": "https://www.topdata.de",
             "en-GB": "https://www.topdata.de"
         },
-        "supportLink":           {
+        "supportLink":                     {
             "de-DE": "https://www.topdata.de",
             "en-GB": "https://www.topdata.de"
         }

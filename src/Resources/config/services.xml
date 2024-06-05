@@ -27,11 +27,17 @@
             <tag name="console.command"/>
         </service>
 
+        <service id="Topdata\TopdataQueueHelperSW6\Command\DeleteZombiesCommand" autowire="true">
+            <tag name="console.command"/>
+        </service>
+
 
 
         <!-- SERVICES -->
         <service id="Topdata\TopdataQueueHelperSW6\Service\ExportHelperService" autowire="true" />
         <service id="Topdata\TopdataQueueHelperSW6\Service\QueueService" autowire="true" />
+        <service id="Topdata\TopdataQueueHelperSW6\Service\ScheduledTaskService" autowire="true" />
+        <service id="Topdata\TopdataQueueHelperSW6\Service\DatabaseHelperService" autowire="true" />
 
 
     </services>
