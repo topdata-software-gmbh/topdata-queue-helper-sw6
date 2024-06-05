@@ -60,7 +60,7 @@ class QueueService
      */
     public function getMessageQueueStats(): array
     {
-        return $this->fetchRows('message_queue_stats', ['id', 'created_at', 'updated_at']);
+        return $this->databaseHelperService->fetchRows('message_queue_stats', ['id', 'created_at', 'updated_at']);
     }
 
     /**
@@ -68,7 +68,7 @@ class QueueService
      */
     public function getEnqueue(?string $search = null): array
     {
-        return $this->_filterRows($this->fetchRows('enqueue', ['id', 'created_at', 'updated_at']), $search);
+        return $this->databaseHelperService->_filterRows($this->databaseHelperService->fetchRows('enqueue', ['id', 'created_at', 'updated_at']), $search);
     }
 
 
@@ -82,21 +82,6 @@ class QueueService
     public function deleteFromEnqueue(): int
     {
         return (int)$this->connection->executeStatement("DELETE FROM enqueue");
-    }
-
-    /**
-     * set status of all scheduled tasks with status="queues" to "scheduled"
-     *
-     * 04/2024 created
-     * @return int number of updated rows
-     */
-    public function updateScheduledTasksStatusFromQueueToScheduled(): int
-    {
-        return (int)$this->connection->executeStatement("
-            UPDATE scheduled_task
-            SET status = 'scheduled'
-            WHERE status = 'queued'
-        ");
     }
 
 }

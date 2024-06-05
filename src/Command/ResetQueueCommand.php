@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Topdata\TopdataQueueHelperSW6\Helper\CliStyle;
 use Topdata\TopdataQueueHelperSW6\Service\QueueService;
+use Topdata\TopdataQueueHelperSW6\Service\ScheduledTaskService;
 
 /**
  * aka "topdata:queue-helper:reset-queue"
@@ -20,13 +21,16 @@ class ResetQueueCommand extends Command
 
     protected CliStyle $cliStyle;
     private QueueService $queueService;
+    private ScheduledTaskService $scheduledTaskService;
 
     public function __construct(
-        QueueService $queueService
+        QueueService         $queueService,
+        ScheduledTaskService $scheduledTaskService
     )
     {
         parent::__construct();
         $this->queueService = $queueService;
+        $this->scheduledTaskService = $scheduledTaskService;
     }
 
 
@@ -47,7 +51,7 @@ class ResetQueueCommand extends Command
         $this->cliStyle->info("Deleted $numDeleted rows from tbl enqueue");
 
         // ---- set status of all scheduled tasks with status="queues" to "scheduled"
-        $numUpdated = $this->queueService->updateScheduledTasksStatusFromQueueToScheduled();
+        $numUpdated = $this->scheduledTaskService->updateScheduledTasksStatusFromQueueToScheduled();
         $this->cliStyle->info("Updated $numUpdated rows in scheduled_task from status='queued' to status='scheduled'");
 
         $this->cliStyle->success("==== DONE ====");

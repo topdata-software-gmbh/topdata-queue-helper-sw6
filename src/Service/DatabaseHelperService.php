@@ -41,7 +41,7 @@ class DatabaseHelperService
      * @param string[] $exclude eg ['id', 'created_at', 'updated_at']
      * @param array $sort eg ['scheduled_task_class' => 'ASC', 'id' => 'ASC']
      */
-    private function fetchRows(string $tbl, array $exclude, array $sort = ['id' => 'ASC']): array
+    public function fetchRows(string $tbl, array $exclude, array $sort = ['id' => 'ASC']): array
     {
         $columnNames = $this->getTableColumnNamesExcept($tbl, $exclude);
 
@@ -59,6 +59,7 @@ class DatabaseHelperService
      * helper
      *
      * 04/2024 created
+     * 04/2024 moved from QueueService to DatabaseHelperService
      */
     public static function _filterRows(array $rows, ?string $search): array
     {

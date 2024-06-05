@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Topdata\TopdataQueueHelperSW6\Helper\CliStyle;
 use Topdata\TopdataQueueHelperSW6\Service\QueueService;
+use Topdata\TopdataQueueHelperSW6\Service\ScheduledTaskService;
 
 /**
  * aka "topdata:queue-helper:delete-dead-running-jobs"
@@ -20,15 +21,17 @@ class DeleteZombiesCommand extends Command
 
     protected CliStyle $cliStyle;
     private QueueService $queueService;
-
+    private ScheduledTaskService $scheduledTaskService;
 
 
     public function __construct(
-        ScheduleTaskService $scheduleTaskService
+        QueueService         $queueService,
+        ScheduledTaskService $scheduledTaskService
     )
     {
         parent::__construct();
-        $this->scheduleTaskService = $scheduleTaskService;
+        $this->queueService = $queueService;
+        $this->scheduledTaskService = $scheduledTaskService;
     }
 
 
@@ -44,9 +47,6 @@ class DeleteZombiesCommand extends Command
         // ---- init ----
         $this->cliStyle = new CliStyle($input, $output);
 
-        // ---- set status of all scheduled tasks with status="queues" to "scheduled"
-        $numUpdated = $this->queueService->updateScheduledTasksStatusFromQueueToScheduled();
-        $this->cliStyle->info("Updated $numUpdated rows in scheduled_task from status='queued' to status='scheduled'");
 
         $this->cliStyle->success("==== DONE ====");
 
