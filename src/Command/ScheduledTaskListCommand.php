@@ -22,7 +22,7 @@ class ScheduledTaskListCommand extends Command
     private ScheduledTaskService $scheduledTaskService;
 
     public function __construct(
-        ScheduledTaskService $scheduledTaskService,
+        ScheduledTaskService $scheduledTaskService
     )
     {
         parent::__construct();
