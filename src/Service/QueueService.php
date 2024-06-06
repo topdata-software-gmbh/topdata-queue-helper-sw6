@@ -15,7 +15,7 @@ class QueueService
 
     public function __construct(
         Connection            $connection,
-        DatabaseHelperService $databaseHelperService,
+        DatabaseHelperService $databaseHelperService
     )
     {
         $this->connection = $connection;
