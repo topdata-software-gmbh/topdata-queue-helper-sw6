@@ -21,12 +21,13 @@ class ExportListCommand extends Command
     protected static $defaultDescription = 'Print list of exports (sales channel of type "product comparison")';
 
     private CliStyle $cliStyle;
+    private ExportHelperService $exportHelperService;
 
     public function __construct(
-        private QueueService        $queueService,
-        private ExportHelperService $exportHelperService,
+        ExportHelperService $exportHelperService
     )
     {
+        $this->exportHelperService = $exportHelperService;
         parent::__construct();
     }
 
@@ -48,7 +49,7 @@ class ExportListCommand extends Command
         $bAll = (bool)$input->getOption('all');
 
         // ---- main
-        $rows = $this->exportHelperService->getExports(bAll: $bAll);
+        $rows = $this->exportHelperService->getExports($bAll);
         // UtilDebug::dd($rows);
         $this->cliStyle->listOfDictsAsTable($rows, 'Exports');
 
