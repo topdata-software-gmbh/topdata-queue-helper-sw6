@@ -27,7 +27,11 @@
             <tag name="console.command"/>
         </service>
 
-        <service id="Topdata\TopdataQueueHelperSW6\Command\DeleteZombiesCommand" autowire="true">
+        <service id="Topdata\TopdataQueueHelperSW6\Command\ListZombiesCommand" autowire="true">
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Topdata\TopdataQueueHelperSW6\Command\ResetZombiesCommand" autowire="true">
             <tag name="console.command"/>
         </service>
 

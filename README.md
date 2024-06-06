@@ -25,7 +25,8 @@
 All commands are in experimental state. Use with caution.
 
       topdata:queue-helper:debug-queue          
-      topdata:queue-helper:delete-zombies       
+      topdata:queue-helper:list-zombies       
+      topdata:queue-helper:reset-zombies       
       topdata:queue-helper:enqueue:list         
       topdata:queue-helper:export:list          
       topdata:queue-helper:reset-queue          

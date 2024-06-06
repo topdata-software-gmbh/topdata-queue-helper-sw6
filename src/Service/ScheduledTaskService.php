@@ -15,7 +15,7 @@ class ScheduledTaskService
     private DatabaseHelperService $databaseHelperService;
 
     public function __construct(
-        Connection $connection,
+        Connection            $connection,
         DatabaseHelperService $databaseHelperService,
     )
     {
@@ -60,7 +60,7 @@ class ScheduledTaskService
      */
     private function _isZombie(mixed $row)
     {
-        if($row['status'] != 'running') {
+        if ($row['status'] != 'running') {
             return false;
         }
         $lastExecutionUTC = UtilDate::dateTimeFromString($row['last_execution_time']);
@@ -71,7 +71,6 @@ class ScheduledTaskService
 
         return true;
     }
-
 
 
     /**
@@ -136,6 +135,29 @@ class ScheduledTaskService
         $rows = $this->connection->executeQuery($SQL)->fetchAllAssociative();
 
         return $rows;
+    }
+
+
+    /**
+     * 06/2024 created
+     * @return int number of deleted rows
+     */
+    public function deleteZombies($rows): int
+    {
+        $ids = array_column($rows, 'id');
+        $ids = array_map('hex2bin', $ids);
+
+        $SQL = "
+            UPDATE scheduled_task
+            SET status = 'scheduled'
+            WHERE id IN (:ids)
+        ";
+
+        return $this->connection->executeStatement($SQL, [
+            'ids' => $ids
+        ], [
+            'ids' => Connection::PARAM_STR_ARRAY
+        ]);
     }
 
 }
